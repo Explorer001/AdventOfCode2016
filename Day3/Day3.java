@@ -9,9 +9,10 @@ public class Day3 {
             String in = f.readString(new File(args[0]), "UTF8");
             String[] tr = in.split("\n");
             int count = 0;
-            System.out.println(tr.length);
+            int[] rows;
             for (int i = 0; i < tr.length; i++) {
-                if (isValid(tr[i])) count++;
+                rows = getRowNums(tr[i]);
+                if (isValid(rows[0], rows[1], rows[2])) count++;
             }
             System.out.println(count);
         } catch (IOException e){
@@ -19,18 +20,18 @@ public class Day3 {
         }
     }
 
-    private static boolean isValid(String triangle) {
+    private static boolean isValid(int a, int b, int c) {
+        if (a + b <= c || a + c <= b || b + c <= a) return false;
+        return true;
+    }
+
+    private static int[] getRowNums(String triangle) {
         triangle = triangle.replaceAll("\\s+","A");
         String[] fnum = triangle.split("A");
-        int[][] mask = {
-                {1, 2, 3},
-                {1, 3, 2},
-                {2, 3, 1}
-        };
-        for (int i = 1; i < fnum.length; i++) {
-            if (Integer.parseInt(fnum[mask[i-1][0]]) + Integer.parseInt(fnum[mask[i-1][1]]) <= Integer.parseInt(fnum[mask[i-1][2]])) return false;
-        }
-        return true;
+        int[] re = new int[3];
+        for (int i = 1; i < fnum.length; i++)
+            re[i-1] = Integer.parseInt(fnum[i]);
+        return re;
     }
 
 }
