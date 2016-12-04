@@ -10,12 +10,20 @@ public class Day4 {
             String in = f.readString(new File("/home/lukas/AdventOfCode2016/Day4/puzzleinput"), "UTF8");
             String[] i2 = in.split("\\n");
             ArrayList<String> valid = createValidList(i2);
-            ArrayList<String> dec = decrypt(valid);
+            //ArrayList<String> dec = decrypt(valid);
+            ArrayList<String> deocy = new ArrayList<>();
+            for (int i = 0; i < i2.length; i++) {
+                deocy.add(i2[i]);
+            }
+            ArrayList<String> decdecoy = decrypt(deocy);
+            for (int i = 0; i < decdecoy.size(); i++) {
+                System.out.println(decdecoy.get(i));
+            }
             int sum = 0;
             for (int i = 0; i < i2.length; i++) {
                 sum += checkRoom(i2[i]);
             }
-            for (int i = 0; i < dec.size(); i++) if (dec.get(i).charAt(0) == 'n')System.out.println(dec.get(i));
+            //for (int i = 0; i < dec.size(); i++) if (dec.get(i).charAt(0) == 'n')System.out.println(dec.get(i));
             System.out.println(sum);
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,14 +44,13 @@ public class Day4 {
         ArrayList<String> re = new ArrayList<>();
         for (int i = 0; i < s.size(); i++) {
             sub = s.get(i).replaceAll("\\d+.*", "");
-            sub = sub.replaceAll("-", "");
             csum = getSectorID(s.get(i));
             temp = "";
             for (int j = 0; j < sub.length(); j++) {
                 rep = (((sub.charAt(j) - 97) + csum) % 26) + 97;
-                temp += Character.toString ((char) rep);
+                if (sub.charAt(j) != '-') temp += Character.toString ((char) rep);
+                else temp += " ";
             }
-            temp += " | " + csum;
             re.add(temp);
         }
         return re;
