@@ -4,8 +4,8 @@ import java.security.*;
 public class Day5 {
 
    public static void main(String[] args) {
-       //System.out.println(getPassword("ugkcyxxp"));
-       System.out.println(getPasswordIndex("ugkcyxxp"));
+       System.out.println(getPassword("ugkcyxxp"));
+       //System.out.println(getPasswordIndex("ugkcyxxp"));
    }
 
     private static String getString(String[] s) {
@@ -47,20 +47,41 @@ public class Day5 {
         return true;
     }
 
+    private static void visualize(String[] s) {
+        String[] rnd = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
+        String re = "";
+        int rand;
+        int count = 0;
+        for (int i = 0; i < s.length; i++) {
+            rand = (int) (Math.random() * 15);
+            if (s[i].equals("_")) {
+                re += rnd[rand];
+            } else {
+                count++;
+                re += s[i];
+            }
+        }
+        int p = (int) (12.5 * count);
+        System.out.println(re + " | " + p + "%");
+
+    }
+
     private static String getPassword(String input) {
         try {
-            String re = "";
+            String[] s = new String[8];
+            for (int i = 0; i < s.length; i++) s[i] = "_";
             long c = 0;
             String hash = input;
-            String s;
-            while (re.length() < 8) {
-                s = MD5(hash + c++).toString();
-                if (s.substring(0, 5).equals("00000")) {
-                    re += s.charAt(5);
-                    System.out.println(re);
+            String t;
+            int pos = 0;
+            while (!fin(s)) {
+                t = MD5(hash + c++).toString();
+                if (t.substring(0, 5).equals("00000")) {
+                    s[pos++] = Character.toString(t.charAt(5));
                 }
+                visualize(s);
             }
-            return re;
+            return getString(s);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return "foo";
