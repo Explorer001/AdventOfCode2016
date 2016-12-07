@@ -30,7 +30,7 @@ public class Day6 {
         int min = Integer.MAX_VALUE;
         int pos = 0;
         for (int i = 0; i < in.length; i++) {
-            if (in[i] < min) {
+            if (in[i] < min && in[i] != 0) {
                 min = in[i] ;
                 pos = i;
             }
