@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Day7 {
 
     public static void main(String[] args) {
-       //try {
+       try {
             Files f = new Files();
-            String input = "rhamaeovmbheijj[hkwbkqzlcscwjkyjulk]ajsxfuemamuqcjccbc";//f.readString(new File("/home/lukas/AdventOfCode2016/Day7/puzzleinput"), "UTF8");
+            String input = f.readString(new File("/home/lukas/AdventOfCode2016/Day7/puzzleinput"), "UTF8");
             String[][] parts = format(input);
             int count = 0;
             int c = 0;
@@ -16,9 +16,9 @@ public class Day7 {
                 if (supportsSSL(s)) c++;
             }
             System.out.println(count + " | " + c);
-       //} catch (IOException e) {
-         //   e.printStackTrace();
-       //}
+       } catch (IOException e) {
+            e.printStackTrace();
+       }
     }
 
     private static boolean supportsSSL(String[] s) {
@@ -39,15 +39,15 @@ public class Day7 {
         }
         for (String s1 : open) {
             for (String s2 : close) {
+                //System.out.println(s1 + " | " + s2);
                 if (close(s1, s2)) return true;
-                System.out.println(s1 + " | " + s2);
             }
         }
         return false;
     }
 
     private static boolean close(String s, String t) {
-        if (s.charAt(1) == t.charAt(0) && t.charAt(0) == s.charAt(1)) return true;
+        if (s.charAt(1) == t.charAt(0) && t.charAt(1) == s.charAt(0)) return true;
         return false;
     }
 
