@@ -6,8 +6,11 @@ start = [1,1]
 fin = [31,39]
 
 elist = [start]
+p = [[]]
 visited = []
 dist = [0]
+
+spath = []
 
 def search():
 	di = 0
@@ -17,6 +20,7 @@ def search():
 		r = getValidMoves(node[0],node[1])	
 		for x in r:
 			if x not in visited:
+				p.append(node)
 				visited.append(x)
 				dist.append(dist[di] + 1)	
 				elist.insert(0,x)
@@ -24,7 +28,15 @@ def search():
 		if fin in visited:
 			break
 	return visited	
-	
+
+def backtrack():
+	n = fin
+	while n != start:
+		spath.insert(0,n)
+		n = p[visited.index(n)]
+	spath.insert(0,start)
+	return spath
+
 def markdown(l):
 	for x in l:
 		a = x[1]
@@ -73,7 +85,8 @@ def checkCoord(x, y):
 
 initMaze(msize[0], msize[1])
 buildMaze()
-markdown(search())
+search()
+markdown(backtrack())
 print dist[visited.index(fin)]
 count = 0
 for v in visited:
