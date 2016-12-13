@@ -13,10 +13,10 @@ def search():
 	di = 0
 	while len(elist) > 0:	
 		node = elist.pop()
-		visited.append(node)
 		r = getValidMoves(node[0],node[1])	
 		for x in r:
 			if x not in visited:
+				visited.append(x)
 				dist.append(dist[di] + 1)	
 				elist.insert(0,x)
 		di += 1
@@ -74,3 +74,8 @@ initMaze(msize[0], msize[1])
 buildMaze()
 markdown(search())
 print dist[visited.index(fin)]
+count = 0
+for v in visited:
+	if dist[visited.index(v)] <= 50:
+		count += 1
+print count
