@@ -11,6 +11,7 @@ dist = [0]
 
 def search():
 	di = 0
+	visited.append(start)
 	while len(elist) > 0:	
 		node = elist.pop()
 		r = getValidMoves(node[0],node[1])	
