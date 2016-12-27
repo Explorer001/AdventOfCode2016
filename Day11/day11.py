@@ -1,7 +1,9 @@
 import itertools
+from collections import deque
 
 testinput = ['1', 'HM@1', 'HG@2', 'LM@1', 'LG@3']
 puzzleinput = ['1', 'THG@1', 'THM@1', 'PLG@1', 'PLM@2', 'STG@1', 'STM@2', 'PRG@3', 'PRM@3', 'RUG@3', 'RUM@3']
+puzzleinput2 = ['1', 'ELG@1', 'ELM@1', 'DIG@1', 'DIM@1','THG@1', 'THM@1', 'PLG@1', 'PLM@2', 'STG@1', 'STM@2', 'PRG@3', 'PRM@3', 'RUG@3', 'RUM@3']
 rng = (1,4)
 
 def getPossible(layer):
@@ -74,20 +76,19 @@ def getPair(state):
 	return pair
 
 def isIn(conf, ls):
-	slist = set(ls)
 	perm = itertools.permutations(conf[1:])
 	for pe in perm:
 		che = [conf[0]]
 		for p in pe:
 			che.append(p)
-		if str(che) in slist:
+		if str(che) in ls:
 			return True
 	return False
 
 def search(start, end):
 	old = 0
-	queue = [(start, 0)]
-	visited = [str(getPair(start))]
+	queue = deque([(start, 0)])
+	visited = set([str(getPair(start))])
 	while queue:
 		node, di = queue.pop()
 		if di > old:
@@ -99,8 +100,8 @@ def search(start, end):
 		for m in moves:
 			pr = getPair(m)
 			if not isIn(pr, visited):
-				visited.append(str(pr))
-				queue.insert(0,(m, di+1))
+				visited |= {str(pr)}
+				queue.appendleft((m, di+1))
 	return -1
 				
 
@@ -114,6 +115,5 @@ def fin(layer, end):
 				return False
 	return True
 
-#print isIn(getPair(puzzleinput), 1)
-d,n = search(puzzleinput, 4)
+d,n = search(puzzleinput2, 4)
 print ('Depth: '+str(d)+' | Nodes: '+str(n))
